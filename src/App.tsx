@@ -560,6 +560,9 @@ function App() {
                         required 
                         error={errors.q15_any_program_student_count}
                       >
+                        <div className="text-sm text-gray-600 mb-2">
+                          May be less than the sum of 12, 13, and 14 if some students participated in multiple programs.
+                        </div>
                         <Input
                           type="text"
                           value={formData.q15_any_program_student_count.toString()}
