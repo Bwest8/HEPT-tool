@@ -560,17 +560,6 @@ function App() {
                         required 
                         error={errors.q15_any_program_student_count}
                       >
-                        <div className="text-sm text-gray-600 mb-3 bg-blue-50 p-3 rounded border-l-4 border-blue-400">
-                          <div className="font-medium text-blue-800 mb-2">Important Instructions:</div>
-                          <ul className="space-y-1 text-blue-700">
-                            <li>• Count each <strong>unique student</strong> only once, even if they participated in multiple programs</li>
-                            <li>• This number should be <strong>at least as large</strong> as your highest individual program count</li>
-                            <li>• This number will typically be <strong>less than the sum</strong> of questions 12, 13, and 14 because students may participate in multiple programs</li>
-                          </ul>
-                        </div>
-                        <div className="text-sm text-gray-700 mb-2">
-                          <strong>Example:</strong> If 10 students did CTE, 8 did cocurricular, and 5 did academic programs, but 3 students participated in both CTE and cocurricular, your answer would be 20 (not 23).
-                        </div>
                         <Input
                           type="text"
                           value={formData.q15_any_program_student_count.toString()}
@@ -579,7 +568,6 @@ function App() {
                           error={!!errors.q15_any_program_student_count}
                         />
                         <div className="text-xs text-gray-600 mt-1 bg-gray-50 px-2 py-1 rounded">
-                          Sum of programs: {formData.q12_ctc_student_count + formData.q13_cocurricular_student_count + formData.q14_academic_program_student_count} | 
                           Largest individual count: {Math.max(formData.q12_ctc_student_count, formData.q13_cocurricular_student_count, formData.q14_academic_program_student_count)}
                         </div>
                       </FormField>

@@ -107,7 +107,7 @@ export const validateForm = (data: FormData): ValidationErrors => {
 
   const programSum = data.q12_ctc_student_count + data.q13_cocurricular_student_count + data.q14_academic_program_student_count;
   if (data.q15_any_program_student_count > programSum) {
-    errors.q15_any_program_student_count = `Total participants in ANY program (${data.q15_any_program_student_count}) cannot exceed sum of individual programs (${programSum})`;
+    errors.q15_any_program_student_count = `Total participants in ANY program (${data.q15_any_program_student_count}) cannot exceed the sum of individual programs (${programSum})`;
   }
 
   const maxIndividualProgram = Math.max(data.q12_ctc_student_count, data.q13_cocurricular_student_count, data.q14_academic_program_student_count);
@@ -125,35 +125,35 @@ export const validateForm = (data: FormData): ValidationErrors => {
     if (data.q7_special_ed_student_count < 0) {
       errors.q7_special_ed_student_count = 'Number of special education students must be 0 or greater';
     }
-    
+
     if (data.q8_special_ed_services_student_count < 0) {
       errors.q8_special_ed_services_student_count = 'Number of students receiving special education services must be 0 or greater';
     }
-    
+
     if (data.q9_curricular_materials_request_count < 0) {
       errors.q9_curricular_materials_request_count = 'Number of supervisors requesting curricular materials must be 0 or greater';
     }
-    
+
     if (data.q10_inappropriate_programs_count < 0) {
       errors.q10_inappropriate_programs_count = 'Number of inappropriate programs must be 0 or greater';
     }
-    
+
     if (data.q11_inappropriate_program_hearings_count < 0) {
       errors.q11_inappropriate_program_hearings_count = 'Number of hearings held must be 0 or greater';
     }
-    
+
     if (data.q12_ctc_student_count < 0) {
       errors.q12_ctc_student_count = 'Number of CTC program participants must be 0 or greater';
     }
-    
+
     if (data.q13_cocurricular_student_count < 0) {
       errors.q13_cocurricular_student_count = 'Number of cocurricular program participants must be 0 or greater';
     }
-    
+
     if (data.q14_academic_program_student_count < 0) {
       errors.q14_academic_program_student_count = 'Number of academic program participants must be 0 or greater';
     }
-    
+
     if (data.q15_any_program_student_count < 0) {
       errors.q15_any_program_student_count = 'Total number of program participants must be 0 or greater';
     }
@@ -173,7 +173,7 @@ export const isValidNumber = (value: string): boolean => {
 export const formatPhoneNumber = (value: string): string => {
   // Remove all non-digits
   const digits = value.replace(/\D/g, '');
-  
+
   // Format as (XXX) XXX-XXXX
   if (digits.length >= 10) {
     return `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6, 10)}`;
@@ -184,6 +184,6 @@ export const formatPhoneNumber = (value: string): string => {
   } else if (digits.length > 0) {
     return `(${digits}`;
   }
-  
+
   return '';
 };
