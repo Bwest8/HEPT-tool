@@ -55,6 +55,7 @@ function App() {
   const [formData, setFormData] = useState<FormData>(initialFormData);
   const [errors, setErrors] = useState<ValidationErrors>({});
   const [submitted, setSubmitted] = useState(false);
+  const [successMessage, setSuccessMessage] = useState<string>('');
 
   // School year options (current and 4 previous years)
   const schoolYearOptions = generateSchoolYearOptions();
@@ -65,11 +66,12 @@ function App() {
 
   const handleInputChange = (field: keyof FormData, value: any) => {
     setFormData(prev => ({ ...prev, [field]: value }));
-    
     // Clear error when user starts typing
     if (errors[field]) {
       setErrors(prev => ({ ...prev, [field]: '' }));
     }
+    // Clear success message on any input change
+    if (successMessage) setSuccessMessage('');
   };
 
   const handleDistrictChange = (districtName: string, aun: string) => {
@@ -78,7 +80,6 @@ function App() {
       district_name: districtName,
       district_aun: aun 
     }));
-    
     // Clear errors
     if (errors.district_name) {
       setErrors(prev => ({ ...prev, district_name: '' }));
@@ -86,6 +87,8 @@ function App() {
     if (errors.district_aun) {
       setErrors(prev => ({ ...prev, district_aun: '' }));
     }
+    // Clear success message on district change
+    if (successMessage) setSuccessMessage('');
   };
 
   const handlePhoneChange = (value: string) => {
@@ -115,7 +118,6 @@ function App() {
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
       setSubmitted(true);
-      
       // Scroll to error summary after state updates
       setTimeout(() => {
         const errorSummary = document.getElementById('error-summary');
@@ -126,11 +128,12 @@ function App() {
           });
         }
       }, 100);
-      
+      // Clear any previous success message
+      if (successMessage) setSuccessMessage('');
       return;
     }
-    
     downloadCSV(formData);
+    setSuccessMessage('Template generated and downloaded successfully!');
   };
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
@@ -175,6 +178,15 @@ function App() {
                     <li key={field}>{error}</li>
                   ))}
               </ul>
+            </div>
+          )}
+          {/* Success Message */}
+          {successMessage && Object.keys(errors).length === 0 && (
+            <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-4">
+              <div className="flex items-center gap-2 mb-2">
+                <FileText className="w-5 h-5 text-green-600" />
+                <h3 className="font-semibold text-green-800">{successMessage}</h3>
+              </div>
             </div>
           )}
 
