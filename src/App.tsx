@@ -142,30 +142,51 @@ function App() {
     }, 100);
   };
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      <div className="container mx-auto px-4 py-8">
-        {/* Header */}
-        <div className="text-center mb-6">
-          <h1 className="text-2xl font-bold text-gray-900 mb-2">
-            Home Education and Private Tutoring Annual Report
-          </h1>
-          <p className="text-sm text-gray-600">
-            Pennsylvania Department of Education • Act 169 of 1988 • PIMS Submission
-          </p>
+    <div className="min-h-screen bg-gray-50">
+      {/* Full-width header */}
+      <div className="bg-gradient-to-r from-blue-700 to-indigo-800 shadow-lg">
+        <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="max-w-5xl mx-auto">
+            {/* Header Content */}
+            <div className="text-center">
+              <h1 className="text-4xl font-bold mb-4 text-white">
+                Home Education and Private Tutoring Annual Report
+              </h1>
+              <div className="flex items-center justify-center space-x-4 text-blue-100 text-lg">
+                <span>Pennsylvania Department of Education</span>
+                <span className="w-2 h-2 rounded-full bg-blue-200"></span>
+                <span>Act 169 of 1988</span>
+                <span className="w-2 h-2 rounded-full bg-blue-200"></span>
+                <span>PIMS Submission</span>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
 
-        <form onSubmit={handleSubmit} className="max-w-4xl mx-auto space-y-6">
+      {/* Main content container */}
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="max-w-5xl mx-auto bg-white rounded-lg shadow-xl p-8 mb-8">
+
+        <form onSubmit={handleSubmit} className="space-y-6">
           {/* Important Reminders & Support - Moved to top */}
-          <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
-            <h3 className="font-semibold text-blue-900 mb-3">Important Reminders & Support</h3>
-            <div className="space-y-2 text-sm text-blue-800">
-              <p><strong>Reporting Scope:</strong> Report all children being educated at home per Act 169 of 1988 (24 P.S. Sec. 13-1327.1). Do NOT include students in Homebound Instruction or Instruction in the Home.</p>
-              <p><strong>Submission Mandate:</strong> A report must be submitted for each school district, even when the response would be zero or the form does not apply to your school district.</p>
-              <p><strong>File Submission:</strong> Provide the generated .csv file to your PIMS administrator for upload into the PIMS system as a District Fact template. Only a PIMS administrator has the ability to upload this file.</p>
-              <div className="mt-3">
-                <p><strong>Questions?</strong></p>
-                <p>Email: <a href="mailto:ra-home-education@pa.gov" className="text-blue-600 hover:text-blue-800 underline">ra-home-education@pa.gov</a></p>
-                <p>Visit: <a href="#" className="text-blue-600 hover:text-blue-800 underline">Home Education and Private Tutoring webpage</a></p>
+          <div className="bg-gradient-to-r from-blue-100 to-indigo-100 border-l-4 border-blue-500 rounded-r-lg p-6 shadow-md">
+            <div className="flex items-start gap-4">
+              <div>
+                <AlertCircle className="w-8 h-8 text-blue-500" />
+              </div>
+              <div>
+                <h3 className="font-semibold text-xl text-blue-900 mb-3">Important Reminders & Support</h3>
+                <div className="space-y-3 text-sm text-gray-800">
+                  <p><strong>Reporting Scope:</strong> Report all children being educated at home per Act 169 of 1988 (24 P.S. Sec. 13-1327.1). Do NOT include students in Homebound Instruction or Instruction in the Home.</p>
+                  <p><strong>Submission Mandate:</strong> A report must be submitted for each school district, even when the response would be zero or the form does not apply to your school district.</p>
+                  <p><strong>File Submission:</strong> Provide the generated .csv file to your PIMS administrator for upload into the PIMS system as a District Fact template. Only a PIMS administrator has the ability to upload this file.</p>
+                  <div className="mt-4 pt-3 border-t border-blue-200">
+                    <p className="font-semibold">Questions?</p>
+                    <p>Email: <a href="mailto:ra-home-education@pa.gov" className="text-blue-600 hover:text-blue-800 underline transition-colors">ra-home-education@pa.gov</a></p>
+                    <p>Visit: <a href="https://www.education.pa.gov/K-12/Home%20Education%20and%20Private%20Tutoring/Pages/default.aspx" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:text-blue-800 underline transition-colors">Home Education and Private Tutoring webpage</a></p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -670,6 +691,7 @@ function App() {
             </button>
           </div>
         </form>
+        </div>
       </div>
     </div>
   );
