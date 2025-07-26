@@ -11,7 +11,7 @@ This application provides a comprehensive digital form that helps Pennsylvania s
 - Student participation in district programs
 - Cyber program offerings
 
-The form generates a CSV file that can be uploaded to the Pennsylvania Information Management System (PIMS) for official submission to the Pennsylvania Department of Education.
+The form is organized into color-coded, collapsible sections for improved usability. It generates a CSV file that can be uploaded to the Pennsylvania Information Management System (PIMS) for official submission to the Pennsylvania Department of Education.
 
 ## Features
 
@@ -40,9 +40,11 @@ The form generates a CSV file that can be uploaded to the Pennsylvania Informati
 
 ### 🎨 User Experience
 - Responsive design with Tailwind CSS
-- Clear section organization with color-coded categories
+- Clear section organization with color-coded, collapsible categories
 - Helpful instructions and reminders throughout the form
-- Error summary with direct links to problematic fields
+- Error summary that appears upon validation failure
+- Success message upon successful CSV export
+- Important reminders and support contact information prominently displayed
 
 ## Technology Stack
 
@@ -94,7 +96,7 @@ npm run dev
 src/
 ├── components/          # Reusable UI components
 │   ├── FormField.tsx   # Form field wrapper with labels and errors
-│   ├── FormSection.tsx # Form section container
+│   ├── FormSection.tsx # Collapsible, color-coded form section container
 │   ├── Input.tsx       # Styled input component
 │   ├── Select.tsx      # Dropdown select component
 │   ├── RadioGroup.tsx  # Radio button group
@@ -103,14 +105,14 @@ src/
 │   ├── CyberProgramGrid.tsx  # Grade level selection grid
 │   └── DistrictSelect.tsx    # District name autocomplete
 ├── types/
-│   └── form.ts         # TypeScript interfaces
+│   └── form.ts         # TypeScript interfaces for form data and validation
 ├── utils/
 │   ├── validation.ts   # Form validation logic
 │   ├── csvExport.ts    # CSV generation utilities
 │   └── schoolYear.ts   # School year calculation
 ├── data/
-│   └── districts.ts    # Pennsylvania district data
-├── App.tsx             # Main application component
+│   └── districts.ts    # Pennsylvania district data (name and AUN)
+├── App.tsx             # Main application component, state management, and layout
 └── main.tsx           # Application entry point
 ```
 
