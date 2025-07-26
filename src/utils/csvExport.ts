@@ -304,7 +304,7 @@ export const generateCSVData = (formData: FormData): CSVRow[] => {
   return rows;
 };
 
-export const downloadCSV = (formData: FormData) => {
+export const downloadCSV = (formData: FormData): string => {
   const csvData = generateCSVData(formData);
 
   // Generate filename with timestamp
@@ -378,4 +378,6 @@ export const downloadCSV = (formData: FormData) => {
     link.click();
     document.body.removeChild(link);
   }
+
+  return filename;
 };
