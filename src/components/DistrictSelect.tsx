@@ -1,22 +1,41 @@
 import React, { useState, useRef, useEffect } from 'react';
+
+// === Data Imports ===
 import { District, pennsylvaniaDistricts } from '../data/districts';
+
+// === Icon Imports ===
 import { Search, X } from 'lucide-react';
 
+/**
+ * Props interface for DistrictSelect component
+ */
 interface DistrictSelectProps {
+  /** Current district name value */
   value: string;
+  /** Handler for district selection changes */
   onChange: (districtName: string, aun: string) => void;
+  /** Whether the input has validation errors */
   error?: boolean;
 }
 
+/**
+ * District Select component with autocomplete functionality
+ * Allows users to search and select Pennsylvania school districts
+ * Displays both district name and AUN (Administrative Unit Number)
+ */
 export const DistrictSelect: React.FC<DistrictSelectProps> = ({ value, onChange, error }) => {
+  // === State Management ===
   const [inputValue, setInputValue] = useState(value);
   const [isOpen, setIsOpen] = useState(false);
   const [filteredDistricts, setFilteredDistricts] = useState<District[]>([]);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
+  
+  // === Refs ===
   const dropdownRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // Filter districts based on search term (name or AUN)
+  // === Effects ===
+  /** Filter districts based on search term (name or AUN) */
   useEffect(() => {
     if (inputValue.trim() === '') {
       setFilteredDistricts([]);
@@ -35,7 +54,7 @@ export const DistrictSelect: React.FC<DistrictSelectProps> = ({ value, onChange,
     setHighlightedIndex(-1);
   }, [inputValue]);
 
-  // Handle clicks outside component
+  /** Handle clicks outside component to close dropdown */
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
@@ -48,11 +67,16 @@ export const DistrictSelect: React.FC<DistrictSelectProps> = ({ value, onChange,
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Update input value when prop value changes
+  /** Update input value when prop value changes */
   useEffect(() => {
     setInputValue(value);
   }, [value]);
 
+  // === Event Handlers ===
+  /**
+   * Handle input change events
+   * @param e - Change event from input element
+   */
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     setInputValue(newValue);
@@ -63,6 +87,10 @@ export const DistrictSelect: React.FC<DistrictSelectProps> = ({ value, onChange,
     }
   };
 
+  /**
+   * Handle district selection
+   * @param district - Selected district object
+   */
   const handleDistrictSelect = (district: District) => {
     setInputValue(district.name);
     setIsOpen(false);
@@ -70,6 +98,7 @@ export const DistrictSelect: React.FC<DistrictSelectProps> = ({ value, onChange,
     onChange(district.name, district.aun);
   };
 
+  /** Handle clear button click */
   const handleClear = () => {
     setInputValue('');
     onChange('', '');
@@ -78,6 +107,10 @@ export const DistrictSelect: React.FC<DistrictSelectProps> = ({ value, onChange,
     inputRef.current?.focus();
   };
 
+  /**
+   * Handle keyboard navigation in dropdown
+   * @param e - Keyboard event
+   */
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (!isOpen || filteredDistricts.length === 0) return;
 
@@ -107,6 +140,12 @@ export const DistrictSelect: React.FC<DistrictSelectProps> = ({ value, onChange,
     }
   };
 
+  /**
+   * Highlight matching text in search results
+   * @param text - Text to highlight
+   * @param searchTerm - Search term to highlight
+   * @returns JSX with highlighted matches
+   */
   const highlightMatch = (text: string, searchTerm: string) => {
     if (!searchTerm.trim()) return text;
     
@@ -120,8 +159,10 @@ export const DistrictSelect: React.FC<DistrictSelectProps> = ({ value, onChange,
     );
   };
 
+  // === Render ===
   return (
     <div className="relative" ref={dropdownRef}>
+      {/* === Search Input === */}
       <div className="relative">
         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
         <input
@@ -151,6 +192,7 @@ export const DistrictSelect: React.FC<DistrictSelectProps> = ({ value, onChange,
         )}
       </div>
 
+      {/* === Dropdown Menu === */}
       {isOpen && filteredDistricts.length > 0 && (
         <div className="absolute z-50 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-64 overflow-hidden">
           <div className="max-h-64 overflow-y-auto">

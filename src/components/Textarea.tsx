@@ -1,9 +1,18 @@
 import React from 'react';
 
+/**
+ * Props interface for Textarea component
+ * Extends standard HTML textarea attributes
+ */
 interface TextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+  /** Whether the textarea has validation errors */
   error?: boolean;
 }
 
+/**
+ * Styled textarea component with consistent theming and error states
+ * Provides vertical resizing and consistent focus styling
+ */
 export const Textarea: React.FC<TextareaProps> = ({ error, className = '', ...props }) => {
   return (
     <textarea

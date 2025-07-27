@@ -1,16 +1,39 @@
 import React from 'react';
+
+// === Component Imports ===
 import { Input } from './Input';
+
+// === Utility Imports ===
 import { isValidNumber } from '../utils/validation';
 
+/**
+ * Props interface for EnrollmentGrid component
+ */
 interface EnrollmentGridProps {
+  /** Current enrollment data keyed by age and gender */
   enrollments: Record<string, number>;
+  /** Handler for enrollment data changes */
   onChange: (enrollments: Record<string, number>) => void;
+  /** Whether the grid is disabled (e.g., when homeschooling is not selected) */
   disabled?: boolean;
 }
 
+/**
+ * Enrollment Grid component for entering homeschooling student counts by age and gender
+ * Displays a table grid for ages 5-21 with male/female columns and automatic totals
+ */
 export const EnrollmentGrid: React.FC<EnrollmentGridProps> = ({ enrollments, onChange, disabled }) => {
-  const ages = [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21]; // Ages 5-21
+  // === Constants ===
+  /** Age range for homeschooling students (5-21 years old) */
+  const ages = [5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21];
 
+  // === Event Handlers ===
+  /**
+   * Handle input changes for enrollment counts
+   * @param age - Age of students
+   * @param gender - Gender ('males' or 'females')
+   * @param value - Input value as string
+   */
   const handleInputChange = (age: number, gender: 'males' | 'females', value: string) => {
     if (!isValidNumber(value)) return;
     
@@ -21,6 +44,11 @@ export const EnrollmentGrid: React.FC<EnrollmentGridProps> = ({ enrollments, onC
     });
   };
 
+  // === Calculations ===
+  /**
+   * Calculate totals for males, females, and by age
+   * @returns Object containing calculated totals
+   */
   const calculateTotals = () => {
     const totals = {
       males: 0,
@@ -39,9 +67,12 @@ export const EnrollmentGrid: React.FC<EnrollmentGridProps> = ({ enrollments, onC
     return totals;
   };
 
+  // Calculate all totals
   const totals = calculateTotals();
   const grandTotal = totals.males + totals.females;
 
+  // === Render ===
+  // Show disabled state message
   if (disabled) {
     return (
       <div className="bg-gray-50 rounded-lg p-4 text-center text-gray-500">
@@ -55,8 +86,11 @@ export const EnrollmentGrid: React.FC<EnrollmentGridProps> = ({ enrollments, onC
       <div className="text-sm font-medium text-gray-700 mb-2">
         Students Enrolled in Homeschooling at the End of the School Year
       </div>
+      
       <div className="w-full">
+        {/* === Enrollment Table === */}
         <table className="w-full bg-white border-2 border-gray-800 table-fixed">
+          {/* Table Header */}
           <thead className="bg-gray-50">
             <tr>
               <th className="w-16 px-1 py-2 text-center text-xs font-bold text-gray-900 border border-gray-800">Age</th>
@@ -68,7 +102,10 @@ export const EnrollmentGrid: React.FC<EnrollmentGridProps> = ({ enrollments, onC
               <th className="w-12 px-1 py-2 text-center text-xs font-bold text-gray-900 border border-gray-800">Total</th>
             </tr>
           </thead>
+          
+          {/* Table Body */}
           <tbody>
+            {/* Males Row */}
             <tr className="bg-white">
               <td className="px-1 py-1 text-xs font-bold text-gray-900 border border-gray-800">Males</td>
               {ages.map(age => (
@@ -87,6 +124,8 @@ export const EnrollmentGrid: React.FC<EnrollmentGridProps> = ({ enrollments, onC
                 {totals.males}
               </td>
             </tr>
+            
+            {/* Females Row */}
             <tr className="bg-white">
               <td className="px-1 py-1 text-xs font-bold text-gray-900 border border-gray-800">Females</td>
               {ages.map(age => (
@@ -105,6 +144,8 @@ export const EnrollmentGrid: React.FC<EnrollmentGridProps> = ({ enrollments, onC
                 {totals.females}
               </td>
             </tr>
+            
+            {/* Totals Row */}
             <tr className="bg-gray-100">
               <td className="px-1 py-2 text-xs font-bold text-gray-900 border border-gray-800">Total</td>
               {ages.map(age => (

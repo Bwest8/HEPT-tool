@@ -1,18 +1,35 @@
 import React from 'react';
 
+/**
+ * Interface for radio button options
+ */
 interface RadioOption {
+  /** Value for the radio button */
   value: string;
+  /** Display label for the radio button */
   label: string;
 }
 
+/**
+ * Props interface for RadioGroup component
+ */
 interface RadioGroupProps {
+  /** Name attribute for the radio group */
   name: string;
+  /** Currently selected value */
   value: string;
+  /** Handler for value changes */
   onChange: (value: string) => void;
+  /** Array of radio button options */
   options: RadioOption[];
+  /** Whether the group has validation errors */
   error?: boolean;
 }
 
+/**
+ * Radio group component for selecting single options
+ * Provides a horizontal layout of radio buttons with consistent styling
+ */
 export const RadioGroup: React.FC<RadioGroupProps> = ({ name, value, onChange, options, error }) => {
   return (
     <div className="flex gap-6">

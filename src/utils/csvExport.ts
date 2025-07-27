@@ -1,6 +1,10 @@
 import { FormData } from '../types/form';
 import { calculateReportingDate } from './schoolYear';
 
+/**
+ * Interface for CSV row data structure
+ * Matches the PIMS District Fact template format
+ */
 export interface CSVRow {
   DISTRICT_CODE: string;
   REPORTING_DATE: string;
@@ -25,6 +29,13 @@ export interface CSVRow {
   COMMENT: string;
 }
 
+/**
+ * Generate CSV data rows from form data
+ * Converts the form data into the PIMS District Fact template format
+ * 
+ * @param formData - The form data to convert to CSV format
+ * @returns Array of CSVRow objects ready for export
+ */
 export const generateCSVData = (formData: FormData): CSVRow[] => {
   const rows: CSVRow[] = [];
 
@@ -56,7 +67,7 @@ export const generateCSVData = (formData: FormData): CSVRow[] => {
     COMMENT: ''
   });
 
-  // Contact Information
+  // === Contact Information ===
   rows.push({
     ...createBaseRow(),
     CATEGORY_01: 'HOME EDUCATION',
@@ -96,6 +107,7 @@ export const generateCSVData = (formData: FormData): CSVRow[] => {
     COMMENT: formData.email_address
   });
 
+  // === Private Tutoring Data ===
   // Private Tutoring - Students
   rows.push({
     ...createBaseRow(),
@@ -116,6 +128,7 @@ export const generateCSVData = (formData: FormData): CSVRow[] => {
     });
   }
 
+  // === Home Education Data ===
   // Home Education - Students
   rows.push({
     ...createBaseRow(),
@@ -264,6 +277,7 @@ export const generateCSVData = (formData: FormData): CSVRow[] => {
     COUNT: formData.q15_any_program_student_count.toString()
   });
 
+  // === Cyber Program Data ===
   // Home Education - Cyber Program District
   rows.push({
     ...createBaseRow(),
@@ -289,7 +303,8 @@ export const generateCSVData = (formData: FormData): CSVRow[] => {
     });
   });
 
-  // Home Education - Comments
+  // === Additional Comments ===
+  // Aditional Comments - Comments (if any)
   if (formData.q18_comments) {
     rows.push({
       ...createBaseRow(),
@@ -304,6 +319,13 @@ export const generateCSVData = (formData: FormData): CSVRow[] => {
   return rows;
 };
 
+/**
+ * Generate and download CSV file from form data
+ * Creates a properly formatted CSV file for PIMS submission
+ * 
+ * @param formData - The form data to export
+ * @returns The generated filename
+ */
 export const downloadCSV = (formData: FormData): string => {
   const csvData = generateCSVData(formData);
 

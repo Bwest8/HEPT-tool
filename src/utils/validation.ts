@@ -1,9 +1,17 @@
 import { FormData, ValidationErrors } from '../types/form';
 
+/**
+ * Validate the entire form data and return any validation errors
+ * Performs comprehensive validation for all form sections including
+ * district information, private tutoring, homeschooling, and cyber programs
+ * 
+ * @param data - The form data to validate
+ * @returns ValidationErrors object with field-specific error messages
+ */
 export const validateForm = (data: FormData): ValidationErrors => {
   const errors: ValidationErrors = {};
 
-  // District Information validation
+  // === District Information Validation ===
   if (!data.district_name) {
     errors.district_name = 'District Name is required';
   }
@@ -44,7 +52,7 @@ export const validateForm = (data: FormData): ValidationErrors => {
     errors.email_address = 'Please enter a valid email address';
   }
 
-  // Private Tutoring validation
+  // === Private Tutoring Validation ===
   if (!data.q1_private_tutoring_exists) {
     errors.q1_private_tutoring_exists = 'Please indicate whether the district had students in private tutoring';
   }
@@ -53,7 +61,7 @@ export const validateForm = (data: FormData): ValidationErrors => {
     errors.q2_private_tutoring_student_count = 'Please enter the number of private tutoring students (must be greater than 0)';
   }
 
-  // Homeschooling validation
+  // === Homeschooling Validation ===
   if (!data.q3_homeschooling_exists) {
     errors.q3_homeschooling_exists = 'Please indicate whether the district had home educated students';
   }
@@ -115,12 +123,12 @@ export const validateForm = (data: FormData): ValidationErrors => {
     errors.q15_any_program_student_count = `Total participants in ANY program must be at least ${maxIndividualProgram} (the largest individual program count)`;
   }
 
-  // Cyber Program validation
+  // === Cyber Program Validation ===
   if (!data.q16_has_cyber_program) {
     errors.q16_has_cyber_program = 'Please indicate whether the district has a cyber program';
   }
 
-  // Additional numeric field validations for homeschooling questions
+  // === Additional Numeric Field Validations for Homeschooling Questions ===
   if (data.q3_homeschooling_exists === 'yes') {
     if (data.q7_special_ed_student_count < 0) {
       errors.q7_special_ed_student_count = 'Number of special education students must be 0 or greater';
@@ -160,16 +168,30 @@ export const validateForm = (data: FormData): ValidationErrors => {
   }
 
   if (data.q18_comments.length > 250) {
-    errors.q18_comments = 'Cyber program comments must be 250 characters or less';
+    errors.q18_comments = 'Comments must be 250 characters or less';
   }
 
   return errors;
 };
 
+/**
+ * Check if a string value represents a valid number (digits only)
+ * Used for input validation in numeric fields
+ * 
+ * @param value - String value to check
+ * @returns boolean indicating if the value is a valid number
+ */
 export const isValidNumber = (value: string): boolean => {
   return /^\d*$/.test(value);
 };
 
+/**
+ * Format a phone number string into the format (XXX) XXX-XXXX
+ * Automatically formats as the user types
+ * 
+ * @param value - Raw phone number string (digits only)
+ * @returns Formatted phone number string
+ */
 export const formatPhoneNumber = (value: string): string => {
   // Remove all non-digits
   const digits = value.replace(/\D/g, '');

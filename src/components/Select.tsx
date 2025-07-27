@@ -1,10 +1,30 @@
 import React from 'react';
 
-interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
-  error?: boolean;
-  options: Array<{ value: string; label: string }>;
+/**
+ * Interface for select options
+ */
+interface SelectOption {
+  /** Value for the select option */
+  value: string;
+  /** Display label for the select option */
+  label: string;
 }
 
+/**
+ * Props interface for Select component
+ * Extends standard HTML select attributes
+ */
+interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
+  /** Whether the select has validation errors */
+  error?: boolean;
+  /** Array of select options */
+  options: SelectOption[];
+}
+
+/**
+ * Styled select dropdown component with consistent theming and error states
+ * Provides a default "Select..." option and consistent focus styling
+ */
 export const Select: React.FC<SelectProps> = ({ error, options, className = '', ...props }) => {
   return (
     <select

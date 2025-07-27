@@ -1,14 +1,31 @@
 import React from 'react';
 
+/**
+ * Props interface for CyberProgramGrid component
+ */
 interface CyberProgramGridProps {
+  /** Currently selected grades that offer cyber programs */
   selectedGrades: string[];
+  /** Handler for grade selection changes */
   onChange: (grades: string[]) => void;
+  /** Whether the grid is disabled (e.g., when cyber program is not selected) */
   disabled?: boolean;
 }
 
+/**
+ * Cyber Program Grid component for selecting which grades offer cyber programs
+ * Displays a table grid for grades K-12 with checkboxes for selection
+ */
 export const CyberProgramGrid: React.FC<CyberProgramGridProps> = ({ selectedGrades, onChange, disabled }) => {
+  // === Constants ===
+  /** Grade levels for cyber program offerings (K-12) */
   const grades = ['K', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12'];
 
+  // === Event Handlers ===
+  /**
+   * Handle grade selection toggle
+   * @param grade - Grade level to toggle
+   */
   const handleGradeToggle = (grade: string) => {
     if (disabled) return;
     
@@ -19,6 +36,8 @@ export const CyberProgramGrid: React.FC<CyberProgramGridProps> = ({ selectedGrad
     }
   };
 
+  // === Render ===
+  // Show disabled state message
   if (disabled) {
     return (
       <div className="bg-gray-50 rounded-lg p-4 text-center text-gray-500">
@@ -32,8 +51,11 @@ export const CyberProgramGrid: React.FC<CyberProgramGridProps> = ({ selectedGrad
       <div className="text-sm font-medium text-gray-700 mb-2">
         If your answer to question 16 is yes, for each grade below, indicate whether the program is offered to students in that grade, even if no students in that grade participated in the reporting school year.
       </div>
+      
       <div className="overflow-x-auto">
+        {/* === Grade Selection Table === */}
         <table className="min-w-full bg-white border-2 border-gray-800">
+          {/* Table Header */}
           <thead className="bg-gray-50">
             <tr>
               <th className="px-2 py-2 text-center text-xs font-bold text-gray-900 border border-gray-800">Grade</th>
@@ -44,6 +66,8 @@ export const CyberProgramGrid: React.FC<CyberProgramGridProps> = ({ selectedGrad
               ))}
             </tr>
           </thead>
+          
+          {/* Table Body */}
           <tbody>
             <tr className="bg-white">
               <td className="px-2 py-2 text-xs font-bold text-gray-900 border border-gray-800">Cyber Program</td>
