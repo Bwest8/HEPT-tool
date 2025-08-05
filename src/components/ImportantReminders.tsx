@@ -61,7 +61,7 @@ export const ImportantReminders: React.FC = () => {
                 <p>
                   <span className="font-medium">Website:</span>{' '}
                   <a
-                    href="https://www.education.pa.gov/K-12/Home%20Education%20and%20Private%20Tutoring/Pages/default.aspx"
+                    href="https://www.pa.gov/agencies/education/programs-and-services/instruction/elementary-and-secondary-education/home-education-and-private-tutoring"
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-blue-700 underline hover:text-blue-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-1"

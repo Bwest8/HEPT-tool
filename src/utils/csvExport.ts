@@ -1,6 +1,14 @@
 import { FormData } from '../types/form';
 import { calculateReportingDate } from './schoolYear';
 
+// Helper to sanitize free-text for CSV (remove newlines, collapse spaces, escape quotes)
+const sanitizeComment = (s: string): string =>
+  s
+    .replace(/\r?\n+/g, ' ') // replace line breaks with space
+    .replace(/\s+/g, ' ') // collapse whitespace
+    .replace(/"/g, '""') // escape quotes for CSV
+    .trim();
+
 /**
  * Interface for CSV row data structure
  * Matches the PIMS District Fact template format
@@ -86,17 +94,16 @@ export const generateCSVData = (formData: FormData): CSVRow[] => {
     COMMENT: formData.phone_number
   });
 
-  // Phone Extension (only if provided)
-  if (formData.phone_extension) {
-    rows.push({
-      ...createBaseRow(),
-      CATEGORY_01: 'HOME EDUCATION',
-      CATEGORY_02: 'EXTENSION',
-      PRIMARY_MEASURE_TYPE: 'INDICATOR',
-      INDICATOR: 'Yes',
-      COMMENT: formData.phone_extension
-    });
-  }
+  // Phone Extension (always include; Yes if present, else No)
+  const ext = (formData.phone_extension ?? '').toString().trim();
+  rows.push({
+    ...createBaseRow(),
+    CATEGORY_01: 'HOME EDUCATION',
+    CATEGORY_02: 'EXTENSION',
+    PRIMARY_MEASURE_TYPE: 'INDICATOR',
+    INDICATOR: ext ? 'Yes' : 'No',
+    COMMENT: ext ? sanitizeComment(ext) : ''
+  });
 
   rows.push({
     ...createBaseRow(),
@@ -104,7 +111,7 @@ export const generateCSVData = (formData: FormData): CSVRow[] => {
     CATEGORY_02: 'EMAIL',
     PRIMARY_MEASURE_TYPE: 'INDICATOR',
     INDICATOR: 'Yes',
-    COMMENT: formData.email_address
+    COMMENT: sanitizeComment(formData.email_address)
   });
 
   // === Private Tutoring Data ===
@@ -117,16 +124,14 @@ export const generateCSVData = (formData: FormData): CSVRow[] => {
     INDICATOR: formData.q1_private_tutoring_exists === 'yes' ? 'Yes' : 'No'
   });
 
-  // Private Tutoring - Student Count
-  if (formData.q1_private_tutoring_exists === 'yes') {
-    rows.push({
-      ...createBaseRow(),
-      CATEGORY_01: 'PRIVATE TUTORING',
-      CATEGORY_02: 'TOTAL',
-      PRIMARY_MEASURE_TYPE: 'COUNT',
-      COUNT: formData.q2_private_tutoring_student_count.toString()
-    });
-  }
+  // Private Tutoring - Student Count (always include; default 0)
+  rows.push({
+    ...createBaseRow(),
+    CATEGORY_01: 'PRIVATE TUTORING',
+    CATEGORY_02: 'TOTAL',
+    PRIMARY_MEASURE_TYPE: 'COUNT',
+    COUNT: (formData.q2_private_tutoring_student_count ?? 0).toString()
+  });
 
   // === Home Education Data ===
   // Home Education - Students
@@ -175,17 +180,17 @@ export const generateCSVData = (formData: FormData): CSVRow[] => {
     COUNT: formData.q5_affidavits_rejected.toString()
   });
 
-  // Home Education - Affidavits Reason (only if there are rejected affidavits)
-  if (formData.q5_affidavits_rejected > 0 && formData.q6_affidavit_return_reasons) {
-    rows.push({
-      ...createBaseRow(),
-      CATEGORY_01: 'HOME EDUCATION',
-      CATEGORY_02: 'AFFIDAVITS REASON',
-      PRIMARY_MEASURE_TYPE: 'INDICATOR',
-      INDICATOR: 'Yes',
-      COMMENT: formData.q6_affidavit_return_reasons
-    });
-  }
+  // Home Education - Affidavits Reason (always include; Yes if reason provided)
+  const reasonRaw = (formData.q6_affidavit_return_reasons ?? '').toString();
+  const reason = sanitizeComment(reasonRaw);
+  rows.push({
+    ...createBaseRow(),
+    CATEGORY_01: 'HOME EDUCATION',
+    CATEGORY_02: 'AFFIDAVITS REASON',
+    PRIMARY_MEASURE_TYPE: 'INDICATOR',
+    INDICATOR: reason ? 'Yes' : 'No',
+    COMMENT: reason ? reason : ''
+  });
 
   // Home Education - Special Education Students
   rows.push({
@@ -304,17 +309,17 @@ export const generateCSVData = (formData: FormData): CSVRow[] => {
   });
 
   // === Additional Comments ===
-  // Aditional Comments - Comments (if any)
-  if (formData.q18_comments) {
-    rows.push({
-      ...createBaseRow(),
-      CATEGORY_01: 'HOME EDUCATION',
-      CATEGORY_02: 'COMMENTS',
-      PRIMARY_MEASURE_TYPE: 'INDICATOR',
-      INDICATOR: 'Yes',
-      COMMENT: formData.q18_comments
-    });
-  }
+  // Additional Comments - always include; Yes if provided
+  const commentsRaw = (formData.q18_comments ?? '').toString();
+  const comments = sanitizeComment(commentsRaw);
+  rows.push({
+    ...createBaseRow(),
+    CATEGORY_01: 'HOME EDUCATION',
+    CATEGORY_02: 'COMMENTS',
+    PRIMARY_MEASURE_TYPE: 'INDICATOR',
+    INDICATOR: comments ? 'Yes' : 'No',
+    COMMENT: comments ? comments : ''
+  });
 
   return rows;
 };
