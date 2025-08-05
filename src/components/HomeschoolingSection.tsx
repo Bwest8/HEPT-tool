@@ -110,8 +110,8 @@ export const HomeschoolingSection: React.FC<HomeschoolingSectionProps> = ({
               className="w-32"
             />
           ) : (
-            <div className="text-sm text-gray-500 italic bg-gray-50 p-4 rounded-md border">
-              This section will be enabled when you select "Yes" for homeschooling question above.
+            <div className="bg-gray-100 border-2 border-gray-300 p-4 text-base text-gray-600">
+              <strong>Note:</strong> This section will be enabled when you select "Yes" for homeschooling question above.
             </div>
           )}
         </FormField>
@@ -137,13 +137,13 @@ export const HomeschoolingSection: React.FC<HomeschoolingSectionProps> = ({
                 </div>
               </>
             ) : (
-              <div className="text-sm text-gray-500 italic bg-gray-50 p-4 rounded-md border">
-                This section will be enabled when you enter a value greater than 0 for rejected affidavits above.
+              <div className="bg-gray-100 border-2 border-gray-300 p-4 text-base text-gray-600">
+                <strong>Note:</strong> This section will be enabled when you enter a value greater than 0 for rejected affidavits above.
               </div>
             )
           ) : (
-            <div className="text-sm text-gray-500 italic bg-gray-50 p-4 rounded-md border">
-              This section will be enabled when you select "Yes" for homeschooling question above.
+            <div className="bg-gray-100 border-2 border-gray-300 p-4 text-base text-gray-600">
+              <strong>Note:</strong> This section will be enabled when you select "Yes" for homeschooling question above.
             </div>
           )}
         </FormField>
@@ -167,8 +167,8 @@ export const HomeschoolingSection: React.FC<HomeschoolingSectionProps> = ({
               </div>
             </>
           ) : (
-            <div className="text-sm text-gray-500 italic bg-gray-50 p-4 rounded-md border">
-              This section will be enabled when you select "Yes" for homeschooling question above.
+            <div className="bg-gray-100 border-2 border-gray-300 p-4 text-base text-gray-600">
+              <strong>Note:</strong> This section will be enabled when you select "Yes" for homeschooling question above.
             </div>
           )}
         </FormField>
@@ -214,8 +214,8 @@ export const HomeschoolingSection: React.FC<HomeschoolingSectionProps> = ({
             </FormField>
           </div>
         ) : (
-          <div className="text-sm text-gray-500 italic bg-gray-50 p-4 rounded-md border">
-            This section will be enabled when you select "Yes" for homeschooling question above.
+          <div className="bg-gray-100 border-2 border-gray-300 p-4 text-base text-gray-600">
+            <strong>Note:</strong> This section will be enabled when you select "Yes" for homeschooling question above.
           </div>
         )}
       </div>
@@ -257,8 +257,8 @@ export const HomeschoolingSection: React.FC<HomeschoolingSectionProps> = ({
             </FormField>
           </div>
         ) : (
-          <div className="text-sm text-gray-500 italic bg-gray-50 p-4 rounded-md border">
-            This section will be enabled when you select "Yes" for homeschooling question above.
+          <div className="bg-gray-100 border-2 border-gray-300 p-4 text-base text-gray-600">
+            <strong>Note:</strong> This section will be enabled when you select "Yes" for homeschooling question above.
           </div>
         )}
       </div>
@@ -328,8 +328,8 @@ export const HomeschoolingSection: React.FC<HomeschoolingSectionProps> = ({
             </FormField>
           </div>
         ) : (
-          <div className="text-sm text-gray-500 italic bg-gray-50 p-4 rounded-md border">
-            This section will be enabled when you select "Yes" for homeschooling question above.
+          <div className="bg-gray-100 border-2 border-gray-300 p-4 text-base text-gray-600">
+            <strong>Note:</strong> This section will be enabled when you select "Yes" for homeschooling question above.
           </div>
         )}
       </div>
