@@ -17,14 +17,14 @@ interface FormSubmitProps {
  */
 export const FormSubmit: React.FC<FormSubmitProps> = ({ onExportCSV }) => {
   return (
-    <div className="flex justify-center gap-4">
+    <div className="flex justify-center pt-6 border-t border-gray-200">
       {/* === CSV Export Button === */}
       <button
         type="button"
         onClick={onExportCSV}
-        className="flex items-center gap-2 bg-gradient-to-r from-green-600 to-green-700 text-white px-8 py-3 rounded-lg font-semibold hover:from-green-700 hover:to-green-800 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-offset-2 transition-all duration-200 shadow-lg hover:shadow-xl"
+        className="flex items-center gap-3 bg-blue-600 text-white px-8 py-4 text-base font-bold rounded-none border-2 border-blue-600 hover:bg-blue-700 hover:border-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-200 active:bg-blue-800 transition-all duration-200 min-w-64"
       >
-        <Download className="w-5 h-5" />
+        <Download className="w-5 h-5" aria-hidden="true" />
         Generate & Download CSV
       </button>
     </div>

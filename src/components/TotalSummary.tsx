@@ -23,13 +23,16 @@ export const TotalSummary: React.FC<TotalSummaryProps> = ({ formData }) => {
   const totalTutoredAndHomeschooled = formData.q2_private_tutoring_student_count + q4Total;
 
   return (
-    <div className="bg-orange-50 border-2 border-orange-200 rounded-lg p-4 space-y-2">
-      <h3 className="font-semibold text-orange-900">Total of Privately Tutored and Homeschooled Students</h3>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-        <div>
-          <span className="font-medium text-gray-700">Total:</span>
-          <span className="ml-2 font-bold text-orange-700 text-lg">{totalTutoredAndHomeschooled}</span>
-        </div>
+    <div className="bg-orange-50 border-2 border-orange-300 p-6 space-y-4">
+      <h3 className="font-bold text-xl text-orange-900 border-b-2 border-orange-300 pb-2">
+        Total of Privately Tutored and Homeschooled Students
+      </h3>
+      <div className="flex items-center gap-4">
+        <span className="text-base font-bold text-gray-900">Grand Total:</span>
+        <span className="bg-orange-100 border-2 border-orange-400 px-6 py-3 font-bold text-orange-900 text-2xl min-w-16 text-center">
+          {totalTutoredAndHomeschooled}
+        </span>
+        <span className="text-sm text-gray-600">students</span>
       </div>
     </div>
   );

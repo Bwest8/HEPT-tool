@@ -40,17 +40,15 @@ export const CyberProgramGrid: React.FC<CyberProgramGridProps> = ({ selectedGrad
   // Show disabled state message
   if (disabled) {
     return (
-      <div className="bg-gray-50 rounded-lg p-4 text-center text-gray-500">
-        This section will be enabled when you select "Yes" for cyber program question above.
+      <div className="bg-gray-100 border-2 border-gray-300 p-4 text-base text-gray-600">
+        <strong>Note:</strong> This section will be enabled when you select "Yes" for cyber program question above.
       </div>
     );
   }
 
   return (
     <div className="space-y-4">
-      <div className="text-sm font-medium text-gray-700 mb-2">
-        If your answer to question 16 is yes, for each grade below, indicate whether the program is offered to students in that grade, even if no students in that grade participated in the reporting school year.
-      </div>
+      
       
       <div className="overflow-x-auto">
         {/* === Grade Selection Table === */}
@@ -78,7 +76,7 @@ export const CyberProgramGrid: React.FC<CyberProgramGridProps> = ({ selectedGrad
                       type="checkbox"
                       checked={selectedGrades.includes(grade)}
                       onChange={() => handleGradeToggle(grade)}
-                      className="w-4 h-4 text-blue-600 focus:ring-blue-200 rounded"
+                      className="w-5 h-5 text-blue-600 border-2 border-gray-400 focus:outline-none focus:ring-4 focus:ring-blue-200 transition-all duration-200"
                     />
                   </label>
                 </td>

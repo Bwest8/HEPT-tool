@@ -28,11 +28,15 @@ export const FormField: React.FC<FormFieldProps> = ({
   className = '' 
 }) => {
   return (
-    <div className={`space-y-2 ${className}`}>
+    <div className={`mb-6 ${className}`}>
       {/* Field Label */}
-      <label className="block text-sm font-medium text-gray-700">
+      <label className="block text-base font-bold text-gray-900 mb-2 leading-tight">
         {label}
-        {required && <span className="text-red-500 ml-1">*</span>}
+        {required && (
+          <span className="text-red-600 ml-1" aria-label="required">
+            *
+          </span>
+        )}
       </label>
       
       {/* Input Element */}
@@ -40,12 +44,23 @@ export const FormField: React.FC<FormFieldProps> = ({
       
       {/* Error Message */}
       {error && (
-        <p className="text-sm text-red-600 flex items-center gap-1">
-          <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-            <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
-          </svg>
-          {error}
-        </p>
+        <div 
+          className="mt-2 p-3 bg-red-50 border-l-4 border-red-600 rounded-r"
+          role="alert"
+          id={error ? "field-error" : undefined}
+        >
+          <p className="text-sm font-medium text-red-800 flex items-start gap-2">
+            <svg 
+              className="w-5 h-5 mt-0.5 flex-shrink-0" 
+              fill="currentColor" 
+              viewBox="0 0 20 20"
+              aria-hidden="true"
+            >
+              <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clipRule="evenodd" />
+            </svg>
+            <span>{error}</span>
+          </p>
+        </div>
       )}
     </div>
   );

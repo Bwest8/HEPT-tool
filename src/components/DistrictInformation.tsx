@@ -42,8 +42,8 @@ export const DistrictInformation: React.FC<DistrictInformationProps> = ({
   return (
     <div className="space-y-6">
       {/* === District Selection Section === */}
-      <div className="bg-indigo-50 rounded-lg p-6 space-y-6">
-        <h4 className="text-lg font-semibold text-indigo-900 border-b border-indigo-200 pb-2">
+      <div className="bg-indigo-50 border-2 border-indigo-200 p-6 space-y-6">
+        <h4 className="text-lg font-bold text-indigo-900 border-b-2 border-indigo-300 pb-3">
           District Selection
         </h4>
         
@@ -64,12 +64,12 @@ export const DistrictInformation: React.FC<DistrictInformationProps> = ({
       </div>
 
       {/* === Reporting Period Section === */}
-      <div className="bg-orange-50 rounded-lg p-6 space-y-6">
-        <h4 className="text-lg font-semibold text-orange-900 border-b border-orange-200 pb-2">
+      <div className="bg-orange-50 border-2 border-orange-200 p-6 space-y-6">
+        <h4 className="text-lg font-bold text-orange-900 border-b-2 border-orange-300 pb-3">
           Reporting Period
         </h4>
         
-        <div className="text-sm text-orange-800 mb-4 bg-orange-100 p-3 rounded">
+        <div className="bg-orange-100 border-2 border-orange-300 p-4 text-base text-orange-900">
           <strong>Important:</strong> Select the school year for which you are reporting data.
         </div>
         
@@ -86,12 +86,12 @@ export const DistrictInformation: React.FC<DistrictInformationProps> = ({
       </div>
 
       {/* === Contact Information Section === */}
-      <div className="bg-purple-50 rounded-lg p-6 space-y-6">
-        <h4 className="text-lg font-semibold text-purple-900 border-b border-purple-200 pb-2">
+      <div className="bg-purple-50 border-2 border-purple-200 p-6 space-y-6">
+        <h4 className="text-lg font-bold text-purple-900 border-b-2 border-purple-300 pb-3">
           Contact Information
         </h4>
         
-        <div className="text-sm text-purple-800 mb-4 bg-purple-100 p-3 rounded">
+        <div className="bg-purple-100 border-2 border-purple-300 p-4 text-base text-purple-900">
           <strong>Note:</strong> This contact person will be responsible for this report.
         </div>
         

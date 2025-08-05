@@ -17,14 +17,15 @@ export const Textarea: React.FC<TextareaProps> = ({ error, className = '', ...pr
   return (
     <textarea
       className={`
-        w-full px-4 py-3 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 resize-vertical
-        text-gray-900 placeholder-gray-500 bg-white
+        w-full min-h-32 px-4 py-3 text-base border-2 rounded-none bg-white text-gray-900 placeholder-gray-500
+        transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-blue-200 resize-vertical
         ${error 
-          ? 'border-red-300 focus:border-red-500 focus:ring-red-200' 
-          : 'border-gray-300 hover:border-gray-400 focus:border-blue-500'
+          ? 'border-red-500 focus:border-red-600 focus:ring-red-200' 
+          : 'border-gray-400 hover:border-gray-600 focus:border-blue-600'
         }
         ${className}
       `}
+      aria-describedby={error ? "textarea-error" : undefined}
       {...props}
     />
   );

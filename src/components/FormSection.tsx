@@ -18,16 +18,16 @@ interface FormSectionProps {
  */
 export const FormSection: React.FC<FormSectionProps> = ({ title, children, className = '' }) => {
   return (
-    <div className={`bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden ${className}`}>
-      {/* Section Header with Gradient Background */}
-      <div className="bg-gradient-to-r from-blue-600 to-blue-700 px-6 py-4">
-        <h2 className="text-xl font-semibold text-white">{title}</h2>
+    <section className={`bg-white border-2 border-gray-300 mb-8 ${className}`}>
+      {/* Section Header */}
+      <div className="bg-blue-600 px-6 py-4 border-b-2 border-blue-700">
+        <h2 className="text-xl font-bold text-white leading-tight">{title}</h2>
       </div>
       
       {/* Section Content */}
-      <div className="p-6">
+      <div className="p-6 space-y-6">
         {children}
       </div>
-    </div>
+    </section>
   );
 };

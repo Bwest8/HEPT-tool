@@ -29,7 +29,7 @@ export const AdditionalComments: React.FC<AdditionalCommentsProps> = ({
   onInputChange
 }) => {
   return (
-    <div className="bg-gray-50 rounded-lg p-6 space-y-6">
+    <div className="bg-gray-50 border-2 border-gray-300 p-6 space-y-6">
       <FormField label="18. Comments (optional): (Please limit response to 250 characters.)" error={errors.q18_comments}>
         <Textarea
           value={formData.q18_comments}
@@ -39,8 +39,8 @@ export const AdditionalComments: React.FC<AdditionalCommentsProps> = ({
           placeholder="Optional comments about the data submitted..."
           error={!!errors.q18_comments}
         />
-        <div className="text-xs text-gray-500 mt-1">
-          {formData.q18_comments.length}/250 characters
+        <div className="text-sm text-gray-600 mt-2 font-medium">
+          Character count: {formData.q18_comments.length}/250
         </div>
       </FormField>
     </div>

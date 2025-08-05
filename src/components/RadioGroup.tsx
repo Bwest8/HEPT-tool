@@ -32,24 +32,32 @@ interface RadioGroupProps {
  */
 export const RadioGroup: React.FC<RadioGroupProps> = ({ name, value, onChange, options, error }) => {
   return (
-    <div className="flex gap-6">
-      {options.map(option => (
-        <label key={option.value} className="flex items-center gap-2 cursor-pointer">
-          <input
-            type="radio"
-            name={name}
-            value={option.value}
-            checked={value === option.value}
-            onChange={(e) => onChange(e.target.value)}
-            className={`w-4 h-4 transition-colors ${
-              error 
-                ? 'text-red-600 focus:ring-red-200' 
-                : 'text-blue-600 focus:ring-blue-200'
-            }`}
-          />
-          <span className="text-sm font-medium text-gray-700">{option.label}</span>
-        </label>
-      ))}
-    </div>
+    <fieldset className="space-y-3">
+      <div className="flex flex-wrap gap-6">
+        {options.map(option => (
+          <label 
+            key={option.value} 
+            className="flex items-center gap-3 cursor-pointer p-2 rounded hover:bg-gray-50 transition-colors duration-150"
+          >
+            <input
+              type="radio"
+              name={name}
+              value={option.value}
+              checked={value === option.value}
+              onChange={(e) => onChange(e.target.value)}
+              className={`w-5 h-5 border-2 transition-all duration-200 focus:outline-none focus:ring-4 ${
+                error 
+                  ? 'border-red-500 text-red-600 focus:ring-red-200' 
+                  : 'border-gray-400 text-blue-600 focus:ring-blue-200'
+              }`}
+              aria-describedby={error ? "radio-error" : undefined}
+            />
+            <span className="text-base font-medium text-gray-900 leading-tight">
+              {option.label}
+            </span>
+          </label>
+        ))}
+      </div>
+    </fieldset>
   );
 };

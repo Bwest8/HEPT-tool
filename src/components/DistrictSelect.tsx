@@ -6,6 +6,9 @@ import { District, pennsylvaniaDistricts } from '../data/districts';
 // === Icon Imports ===
 import { Search, X } from 'lucide-react';
 
+// === Utils ===
+import { cn } from '@/lib/utils';
+
 /**
  * Props interface for DistrictSelect component
  */
@@ -19,7 +22,7 @@ interface DistrictSelectProps {
 }
 
 /**
- * District Select component with autocomplete functionality
+ * District Select component with integrated search functionality
  * Allows users to search and select Pennsylvania school districts
  * Displays both district name and AUN (Administrative Unit Number)
  */
@@ -27,33 +30,20 @@ export const DistrictSelect: React.FC<DistrictSelectProps> = ({ value, onChange,
   // === State Management ===
   const [inputValue, setInputValue] = useState(value);
   const [isOpen, setIsOpen] = useState(false);
-  const [filteredDistricts, setFilteredDistricts] = useState<District[]>([]);
   const [highlightedIndex, setHighlightedIndex] = useState(-1);
-  
+
   // === Refs ===
   const dropdownRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  // === Effects ===
-  /** Filter districts based on search term (name or AUN) */
-  useEffect(() => {
-    if (inputValue.trim() === '') {
-      setFilteredDistricts([]);
-      setIsOpen(false);
-      return;
-    }
-
-    const searchTerm = inputValue.toLowerCase().trim();
-    const filtered = pennsylvaniaDistricts.filter(district => 
-      district.name.toLowerCase().includes(searchTerm) || 
-      district.aun.includes(searchTerm)
+  // Filter districts based on search term
+  const filteredDistricts = inputValue.trim() === '' ? [] :
+    pennsylvaniaDistricts.filter(district =>
+      district.name.toLowerCase().includes(inputValue.toLowerCase()) ||
+      district.aun.includes(inputValue)
     ).slice(0, 10); // Limit to 10 results for performance
 
-    setFilteredDistricts(filtered);
-    setIsOpen(filtered.length > 0);
-    setHighlightedIndex(-1);
-  }, [inputValue]);
-
+  // === Effects ===
   /** Handle clicks outside component to close dropdown */
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -69,8 +59,19 @@ export const DistrictSelect: React.FC<DistrictSelectProps> = ({ value, onChange,
 
   /** Update input value when prop value changes */
   useEffect(() => {
-    setInputValue(value);
+    if (value) {
+      const selectedDistrict = pennsylvaniaDistricts.find(district => district.name === value);
+      setInputValue(selectedDistrict ? `${selectedDistrict.name} (${selectedDistrict.aun})` : value);
+    } else {
+      setInputValue('');
+    }
   }, [value]);
+
+  /** Show/hide dropdown based on filtered results */
+  useEffect(() => {
+    setIsOpen(filteredDistricts.length > 0 && inputValue.trim() !== '');
+    setHighlightedIndex(-1);
+  }, [filteredDistricts.length, inputValue]);
 
   // === Event Handlers ===
   /**
@@ -80,7 +81,7 @@ export const DistrictSelect: React.FC<DistrictSelectProps> = ({ value, onChange,
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     setInputValue(newValue);
-    
+
     // Clear selection if input doesn't match current value
     if (newValue !== value) {
       onChange('', '');
@@ -92,7 +93,7 @@ export const DistrictSelect: React.FC<DistrictSelectProps> = ({ value, onChange,
    * @param district - Selected district object
    */
   const handleDistrictSelect = (district: District) => {
-    setInputValue(district.name);
+    setInputValue(`${district.name} (${district.aun})`);
     setIsOpen(false);
     setHighlightedIndex(-1);
     onChange(district.name, district.aun);
@@ -117,13 +118,13 @@ export const DistrictSelect: React.FC<DistrictSelectProps> = ({ value, onChange,
     switch (e.key) {
       case 'ArrowDown':
         e.preventDefault();
-        setHighlightedIndex(prev => 
+        setHighlightedIndex(prev =>
           prev < filteredDistricts.length - 1 ? prev + 1 : 0
         );
         break;
       case 'ArrowUp':
         e.preventDefault();
-        setHighlightedIndex(prev => 
+        setHighlightedIndex(prev =>
           prev > 0 ? prev - 1 : filteredDistricts.length - 1
         );
         break;
@@ -140,31 +141,12 @@ export const DistrictSelect: React.FC<DistrictSelectProps> = ({ value, onChange,
     }
   };
 
-  /**
-   * Highlight matching text in search results
-   * @param text - Text to highlight
-   * @param searchTerm - Search term to highlight
-   * @returns JSX with highlighted matches
-   */
-  const highlightMatch = (text: string, searchTerm: string) => {
-    if (!searchTerm.trim()) return text;
-    
-    const regex = new RegExp(`(${searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
-    const parts = text.split(regex);
-    
-    return parts.map((part, index) => 
-      regex.test(part) ? (
-        <mark key={index} className="bg-yellow-200 text-gray-900">{part}</mark>
-      ) : part
-    );
-  };
-
   // === Render ===
   return (
     <div className="relative" ref={dropdownRef}>
       {/* === Search Input === */}
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
+        <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-500" />
         <input
           ref={inputRef}
           type="text"
@@ -172,58 +154,60 @@ export const DistrictSelect: React.FC<DistrictSelectProps> = ({ value, onChange,
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
           placeholder="Search by district name or AUN..."
-          className={`
-            w-full pl-10 pr-10 py-3 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200
-            text-gray-900 placeholder-gray-500 bg-white
-            ${error 
-              ? 'border-red-300 focus:border-red-500 focus:ring-red-200' 
-              : 'border-gray-300 hover:border-gray-400 focus:border-blue-500'
-            }
-          `}
+          className={cn(
+            "w-full h-12 pl-12 pr-12 py-3 text-base border-2 rounded-none bg-white text-gray-900 placeholder-gray-500 transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-blue-200 focus:border-blue-600",
+            error
+              ? "border-red-500 focus:border-red-600 focus:ring-red-200"
+              : "border-gray-400 hover:border-gray-600"
+          )}
+          aria-describedby={error ? "district-error" : undefined}
         />
         {inputValue && (
           <button
             type="button"
             onClick={handleClear}
-            className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+            className="absolute right-4 top-1/2 transform -translate-y-1/2 p-1 text-gray-500 hover:text-gray-700 hover:bg-gray-100 rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            aria-label="Clear search"
           >
-            <X className="w-5 h-5" />
+            <X className="w-4 h-4" />
           </button>
         )}
       </div>
 
       {/* === Dropdown Menu === */}
       {isOpen && filteredDistricts.length > 0 && (
-        <div className="absolute z-50 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-64 overflow-hidden">
-          <div className="max-h-64 overflow-y-auto">
+        <div className="absolute z-50 w-full mt-1 bg-white border-2 border-gray-400 shadow-lg max-h-80 overflow-hidden">
+          <div className="max-h-72 overflow-y-auto">
             {filteredDistricts.map((district, index) => (
-              <button
+              <div
                 key={district.aun}
-                type="button"
                 onMouseDown={(e) => {
                   e.preventDefault();
                   handleDistrictSelect(district);
                 }}
-                className={`
-                  w-full px-4 py-3 text-left transition-colors border-b border-gray-100 last:border-b-0
-                  ${index === highlightedIndex 
-                    ? 'bg-blue-50 text-blue-900' 
-                    : 'hover:bg-gray-50 text-gray-900'
-                  }
-                `}
+                className={cn(
+                  "px-4 py-3 cursor-pointer border-b border-gray-200 last:border-b-0 transition-colors duration-150",
+                  index === highlightedIndex
+                    ? 'bg-blue-50 border-l-4 border-l-blue-600'
+                    : 'hover:bg-gray-50 focus:bg-blue-50 focus:border-l-4 focus:border-l-blue-600'
+                )}
+                role="option"
+                aria-selected={index === highlightedIndex}
               >
-                <div className="font-medium">
-                  {highlightMatch(district.name, inputValue)}
+                <div className="flex-1">
+                  <div className="font-semibold text-gray-900 text-base leading-tight">
+                    {district.name}
+                  </div>
+                  <div className="text-sm text-gray-600 mt-1">
+                    Administrative Unit Number: {district.aun}
+                  </div>
                 </div>
-                <div className="text-sm text-gray-500 mt-1">
-                  AUN: {highlightMatch(district.aun, inputValue)}
-                </div>
-              </button>
+              </div>
             ))}
           </div>
           {filteredDistricts.length === 10 && (
-            <div className="px-4 py-2 text-xs text-gray-500 bg-gray-50 border-t">
-              Showing first 10 results. Type more to narrow search.
+            <div className="px-4 py-3 text-sm text-gray-700 bg-blue-50 border-t border-gray-200">
+              <strong>Note:</strong> Showing first 10 results. Continue typing to narrow your search.
             </div>
           )}
         </div>

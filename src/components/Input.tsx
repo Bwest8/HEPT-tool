@@ -21,17 +21,19 @@ export const Input: React.FC<InputProps> = ({ error, className = '', ...props })
   /** Base styling classes */
   const baseClasses = isGridInput 
     ? 'w-full focus:outline-none transition-all duration-200 text-gray-900 placeholder-gray-500 bg-white'
-    : 'w-full px-4 py-3 border rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-200 text-gray-900 placeholder-gray-500 bg-white';
+    : 'w-full h-12 px-4 py-3 text-base border-2 rounded-none bg-white text-gray-900 placeholder-gray-500 transition-all duration-200 focus:outline-none focus:ring-4 focus:ring-blue-200';
   
   /** Error state styling classes */
   const errorClasses = isGridInput
-    ? (error ? 'focus:ring-red-200' : 'focus:ring-blue-500')
+    ? (error ? 'focus:ring-red-200' : 'focus:ring-blue-200')
     : (error 
-        ? 'border-red-300 focus:border-red-500 focus:ring-red-200' 
-        : 'border-gray-300 hover:border-gray-400 focus:border-blue-500');
+        ? 'border-red-500 focus:border-red-600 focus:ring-red-200' 
+        : 'border-gray-400 hover:border-gray-600 focus:border-blue-600');
   
   /** Read-only state styling classes */
-  const readOnlyClasses = props.readOnly ? 'bg-gray-50 cursor-not-allowed' : '';
+  const readOnlyClasses = props.readOnly 
+    ? 'bg-gray-100 cursor-not-allowed border-gray-300 text-gray-600' 
+    : '';
   
   // === Render ===
   return (
@@ -42,6 +44,7 @@ export const Input: React.FC<InputProps> = ({ error, className = '', ...props })
         ${readOnlyClasses}
         ${className}
       `}
+      aria-describedby={error ? "input-error" : undefined}
       {...props}
     />
   );
