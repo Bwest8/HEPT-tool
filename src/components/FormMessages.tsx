@@ -28,16 +28,19 @@ export const FormMessages: React.FC<FormMessagesProps> = ({ submitted, errors, s
     <>
       {/* === Error Summary (shown when form is submitted with errors) === */}
       {submitted && Object.keys(errors).length > 0 && (
-        <div id="error-summary" className="bg-red-50 border border-red-200 rounded-lg p-4">
-          <div className="flex items-center gap-2 mb-2">
-            <AlertCircle className="w-5 h-5 text-red-500" />
-            <h3 className="font-semibold text-red-800">Please correct the following errors:</h3>
+        <div id="error-summary" className="bg-red-50 border-2 border-red-400 p-6 mb-6">
+          <div className="flex items-center gap-3 mb-4">
+            <AlertCircle className="w-6 h-6 text-red-600" />
+            <h3 className="font-semibold text-red-900 text-lg">Please correct the following errors:</h3>
           </div>
-          <ul className="list-disc list-inside text-sm text-red-700 space-y-1">
+          <ul className="space-y-2">
             {Object.entries(errors)
               .filter(([error]) => error && error.trim() !== '')
               .map(([field, error]) => (
-                <li key={field}>{error}</li>
+                <li key={field} className="flex items-start gap-2 text-red-800">
+                  <span className="w-1.5 h-1.5 bg-red-600 rounded-full mt-2 flex-shrink-0"></span>
+                  <span className="text-base">{error}</span>
+                </li>
               ))}
           </ul>
         </div>
@@ -45,10 +48,10 @@ export const FormMessages: React.FC<FormMessagesProps> = ({ submitted, errors, s
       
       {/* === Success Message (shown when operation completes successfully) === */}
       {successMessage && Object.keys(errors).length === 0 && (
-        <div id="success-message" className="bg-green-50 border border-green-200 rounded-lg p-4 mb-4">
-          <div className="flex items-center gap-2 mb-2">
-            <FileText className="w-5 h-5 text-green-600" />
-            <h3 className="font-semibold text-green-800">{successMessage}</h3>
+        <div id="success-message" className="bg-green-50 border-2 border-green-400 p-6 mb-6">
+          <div className="flex items-center gap-3">
+            <FileText className="w-6 h-6 text-green-600" />
+            <h3 className="font-semibold text-green-900 text-lg">{successMessage}</h3>
           </div>
         </div>
       )}

@@ -37,8 +37,9 @@ export const DistrictSelect: React.FC<DistrictSelectProps> = ({ value, onChange,
   const inputRef = useRef<HTMLInputElement>(null);
 
   // Filter districts based on search term
-  const filteredDistricts = inputValue.trim() === '' ? [] :
-    pennsylvaniaDistricts.filter(district =>
+  const filteredDistricts = inputValue.trim() === ''
+    ? pennsylvaniaDistricts.slice(0, 10) // Show first 10 districts when no search term
+    : pennsylvaniaDistricts.filter(district =>
       district.name.toLowerCase().includes(inputValue.toLowerCase()) ||
       district.aun.includes(inputValue)
     ).slice(0, 10); // Limit to 10 results for performance
@@ -67,11 +68,10 @@ export const DistrictSelect: React.FC<DistrictSelectProps> = ({ value, onChange,
     }
   }, [value]);
 
-  /** Show/hide dropdown based on filtered results */
+  /** Reset highlighted index when filtered results change */
   useEffect(() => {
-    setIsOpen(filteredDistricts.length > 0 && inputValue.trim() !== '');
     setHighlightedIndex(-1);
-  }, [filteredDistricts.length, inputValue]);
+  }, [filteredDistricts.length]);
 
   // === Event Handlers ===
   /**
@@ -81,11 +81,19 @@ export const DistrictSelect: React.FC<DistrictSelectProps> = ({ value, onChange,
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newValue = e.target.value;
     setInputValue(newValue);
+    setIsOpen(true); // Show dropdown when typing
 
     // Clear selection if input doesn't match current value
     if (newValue !== value) {
       onChange('', '');
     }
+  };
+
+  /**
+   * Handle input focus to show dropdown
+   */
+  const handleInputFocus = () => {
+    setIsOpen(true);
   };
 
   /**
@@ -152,6 +160,7 @@ export const DistrictSelect: React.FC<DistrictSelectProps> = ({ value, onChange,
           type="text"
           value={inputValue}
           onChange={handleInputChange}
+          onFocus={handleInputFocus}
           onKeyDown={handleKeyDown}
           placeholder="Search by district name or AUN..."
           className={cn(
@@ -175,9 +184,9 @@ export const DistrictSelect: React.FC<DistrictSelectProps> = ({ value, onChange,
       </div>
 
       {/* === Dropdown Menu === */}
-      {isOpen && filteredDistricts.length > 0 && (
-        <div className="absolute z-50 w-full mt-1 bg-white border-2 border-gray-400 shadow-lg max-h-80 overflow-hidden">
-          <div className="max-h-72 overflow-y-auto">
+      {isOpen && (
+        <div className="absolute z-50 w-full mt-1 bg-white border-2 border-gray-400 shadow-lg max-h-96 overflow-hidden flex flex-col">
+          <div className="flex-1 overflow-y-auto" style={{ maxHeight: filteredDistricts.length === 10 ? '288px' : '352px' }}>
             {filteredDistricts.map((district, index) => (
               <div
                 key={district.aun}
@@ -206,8 +215,13 @@ export const DistrictSelect: React.FC<DistrictSelectProps> = ({ value, onChange,
             ))}
           </div>
           {filteredDistricts.length === 10 && (
-            <div className="px-4 py-3 text-sm text-gray-700 bg-blue-50 border-t border-gray-200">
-              <strong>Note:</strong> Showing first 10 results. Continue typing to narrow your search.
+            <div className="flex-shrink-0 px-4 py-3 text-sm text-gray-700 bg-blue-50 border-t border-gray-200">
+              <strong>Note:</strong> Showing first 10 results. {inputValue.trim() === '' ? 'Start typing to search all districts.' : 'Continue typing to narrow your search.'}
+            </div>
+          )}
+          {filteredDistricts.length === 0 && inputValue.trim() !== '' && (
+            <div className="flex-shrink-0 px-4 py-3 text-sm text-gray-700 bg-gray-50 border-t border-gray-200">
+              No districts found matching "{inputValue}". Try a different search term.
             </div>
           )}
         </div>
