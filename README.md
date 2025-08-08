@@ -1,170 +1,144 @@
 # Home Education and Private Tutoring Annual Report Form
 
-A React-based web application for Pennsylvania school districts to complete their annual reporting requirements for home education and private tutoring students as mandated by Act 169 of 1988.
+A React + TypeScript web application for Pennsylvania school districts to complete the annual Home Education and Private Tutoring reporting requirements (Act 169 of 1988). The app validates inputs and exports a PIMS-ready CSV.
+
+- Entry: [index.html](index.html), [src/main.tsx](src/main.tsx)
+- App shell: [src/App.tsx](src/App.tsx)
+- Styles: [src/index.css](src/index.css), [tailwind.config.js](tailwind.config.js), [postcss.config.js](postcss.config.js)
+- Build config: [vite.config.ts](vite.config.ts), [tsconfig.json](tsconfig.json)
+- Deployment: [.github/workflows/deploy.yml](.github/workflows/deploy.yml)
 
 ## Overview
 
-This application provides a comprehensive digital form that helps Pennsylvania school districts collect, validate, and export data about:
-- Private tutoring students
-- Home-educated students (by age and gender)
-- Special education services for homeschooled students
-- Student participation in district programs
-- Cyber program offerings
-
-The form is organized into color-coded, collapsible sections for improved usability. It generates a CSV file that can be uploaded to the Pennsylvania Information Management System (PIMS) for official submission to the Pennsylvania Department of Education.
+The application guides district users through required sections for the annual report, with real-time validation, accessible UI, and a CSV export aligned to PIMS. Sections are organized, collapsible, and color-coded for clarity.
 
 ## Features
 
-### 📋 Comprehensive Data Collection
-- **District Information**: Contact details, AUN, and school year selection
-- **Private Tutoring**: Student counts and program existence tracking
-- **Homeschooling**: Detailed enrollment grids, affidavit processing, and program participation
-- **Cyber Programs**: Grade level offerings and program availability
-
-### ✅ Built-in Validation
-- Real-time form validation with error highlighting
-- Required field enforcement
-- Data consistency checks (e.g., special education counts vs. total enrollments)
-- Phone number formatting and validation
-
-### 📊 Interactive Components
-- Age/gender enrollment grid for homeschooled students
-- Grade level selection grid for cyber programs
-- District name autocomplete with AUN lookup
-- Dynamic form sections that show/hide based on responses
-
-### 📁 Data Export
-- CSV export functionality for PIMS submission
-- Validation before export to ensure data integrity
-- Formatted output ready for administrative upload
-
-### 🎨 User Experience
-- Responsive design with Tailwind CSS
-- Clear section organization with color-coded, collapsible categories
-- Helpful instructions and reminders throughout the form
-- Error summary that appears upon validation failure
-- Success message upon successful CSV export
-- Important reminders and support contact information prominently displayed
+- District information and contact details
+  - Component: [src/components/DistrictInformation.tsx](src/components/DistrictInformation.tsx)
+- Homeschooling enrollments by age and gender (ages 5–21)
+  - Grid: [src/components/EnrollmentGrid.tsx](src/components/EnrollmentGrid.tsx)
+- Cyber program offerings by grade
+  - Components: [src/components/CyberProgramSection.tsx](src/components/CyberProgramSection.tsx), [src/components/CyberProgramGrid.tsx](src/components/CyberProgramGrid.tsx)
+- District selection with AUN lookup
+  - Component: [src/components/DistrictSelect.tsx](src/components/DistrictSelect.tsx)
+- Additional comments and notes
+  - Component: [src/components/AdditionalComments.tsx](src/components/AdditionalComments.tsx)
+- Important reminders and PDE support resources
+  - Component: [src/components/ImportantReminders.tsx](src/components/ImportantReminders.tsx)
+- Built-in validation, error summary on export, success messaging
+  - Orchestrated in [src/App.tsx](src/App.tsx)
+- CSV export suitable for PIMS submission
+  - Export triggered from [src/App.tsx](src/App.tsx)
 
 ## Technology Stack
 
-- **Frontend**: React 18 with TypeScript
-- **Styling**: Tailwind CSS with custom components
-- **Icons**: Lucide React
-- **Build Tool**: Vite
-- **Testing**: Vitest with React Testing Library
-- **Linting**: ESLint with TypeScript support
+- React 18 + TypeScript
+- Vite
+- Tailwind CSS
+- Lucide React (icons)
+- ESLint (flat config)
 
 ## Getting Started
 
-### Prerequisites
-- Node.js (version 18 or higher)
-- npm or yarn package manager
+Prerequisites:
+- Node.js 18+
+- npm or yarn
 
-### Installation
-
-1. Clone the repository:
+Install and run:
 ```bash
 git clone <repository-url>
-cd home-education-report-form
-```
-
-2. Install dependencies:
-```bash
+cd HEPT-tool
 npm install
-```
-
-3. Start the development server:
-```bash
 npm run dev
 ```
 
-4. Open your browser and navigate to `http://localhost:5173`
+Open http://localhost:5173/HEPT-tool/
 
-### Available Scripts
-
-- `npm run dev` - Start development server
-- `npm run build` - Build for production
-- `npm run preview` - Preview production build
-- `npm run lint` - Run ESLint
-- `npm run test` - Run tests in watch mode
-- `npm run test:run` - Run tests once
+Build and preview:
+```bash
+npm run build
+npm run preview
+```
 
 ## Project Structure
 
 ```
-src/
-├── components/          # Reusable UI components
-│   ├── FormField.tsx   # Form field wrapper with labels and errors
-│   ├── FormSection.tsx # Collapsible, color-coded form section container
-│   ├── Input.tsx       # Styled input component
-│   ├── Select.tsx      # Dropdown select component
-│   ├── RadioGroup.tsx  # Radio button group
-│   ├── Textarea.tsx    # Multi-line text input
-│   ├── EnrollmentGrid.tsx    # Age/gender enrollment grid
-│   ├── CyberProgramGrid.tsx  # Grade level selection grid
-│   └── DistrictSelect.tsx    # District name autocomplete
-├── types/
-│   └── form.ts         # TypeScript interfaces for form data and validation
-├── utils/
-│   ├── validation.ts   # Form validation logic
-│   ├── csvExport.ts    # CSV generation utilities
-│   └── schoolYear.ts   # School year calculation
-├── data/
-│   └── districts.ts    # Pennsylvania district data (name and AUN)
-├── App.tsx             # Main application component, state management, and layout
-└── main.tsx           # Application entry point
+.
+├── index.html
+├── package.json
+├── vite.config.ts
+├── tailwind.config.js
+├── postcss.config.js
+├── eslint.config.js
+├── tsconfig.json
+├── .github/
+│   └── workflows/
+│       └── deploy.yml
+└── src/
+    ├── main.tsx
+    ├── App.tsx
+    ├── index.css
+    ├── components/
+    │   ├── AdditionalComments.tsx
+    │   ├── CyberProgramGrid.tsx
+    │   ├── CyberProgramSection.tsx
+    │   ├── DistrictInformation.tsx
+    │   ├── DistrictSelect.tsx
+    │   ├── EnrollmentGrid.tsx
+    │   └── ImportantReminders.tsx
+    ├── data/
+    ├── lib/
+    ├── types/
+    └── utils/
 ```
 
-## Key Components
+## Accessibility & UX
 
-### FormData Interface
-The application uses a comprehensive TypeScript interface to manage all form data, including:
-- District and contact information
-- Private tutoring metrics
-- Homeschooling enrollment and services data
-- Cyber program details
+- Semantic headings and regions with labels (e.g., “Important Reminders & Support” in [src/components/ImportantReminders.tsx](src/components/ImportantReminders.tsx))
+- Keyboard-focusable controls with visible focus states
+- Clear validation and error summaries on export attempt
+- Responsive layout via Tailwind CSS ([src/index.css](src/index.css))
 
-### Validation System
-- Real-time validation with immediate feedback
-- Comprehensive error checking before form submission
-- Data consistency validation (e.g., ensuring special education counts don't exceed total enrollments)
+## CSV Export
 
-### CSV Export
-Generates a properly formatted CSV file that matches PIMS requirements for easy upload by district administrators.
+- Validates before export (scrolls to first error if present)
+- On success, triggers CSV download and displays a success message
+- See the export flow in [src/App.tsx](src/App.tsx)
+
+## Deployment (GitHub Pages)
+
+This repo includes a GitHub Actions workflow for Pages: [.github/workflows/deploy.yml](.github/workflows/deploy.yml)
+
+Typical setup:
+- Push to default branch to build and deploy the app to GitHub Pages
+- Output directory: `dist`
+- Ensure Pages is enabled in your repository settings
 
 ## Compliance & Reporting
 
-This application helps districts comply with:
-- **Act 169 of 1988** (24 P.S. Sec. 13-1327.1) - Home education reporting requirements
-- **PIMS Submission** - Pennsylvania Information Management System data upload
-- **Annual Reporting Mandate** - Required submission for all districts, even with zero counts
+Supports PA reporting needs for:
+- Act 169 of 1988 (24 P.S. Sec. 13-1327.1)
+- PIMS submission formatting via CSV output
+- Annual reporting requirements (districts must report even with zero counts)
+
+## Configuration
+
+- Tailwind tokens and themes in [src/index.css](src/index.css) and [tailwind.config.js](tailwind.config.js)
+- Vite config in [vite.config.ts](vite.config.ts)
+- TypeScript config in [tsconfig.json](tsconfig.json)
+- Linting rules in [eslint.config.js](eslint.config.js)
 
 ## Support
 
-For questions about the reporting requirements or technical issues:
+- PDE Home Education and Private Tutoring: see reminders in [src/components/ImportantReminders.tsx](src/components/ImportantReminders.tsx)
 - Email: ra-home-education@pa.gov
-- Visit the Pennsylvania Department of Education Home Education webpage
 
-## Development
+## Contributing
 
-### Adding New Features
-1. Update the `FormData` interface in `src/types/form.ts`
-2. Add validation rules in `src/utils/validation.ts`
-3. Create or modify components as needed
-4. Update CSV export logic in `src/utils/csvExport.ts`
-
-### Testing
-The application includes comprehensive tests for:
-- Form validation logic
-- Component rendering and interactions
-- CSV export functionality
-- Data consistency checks
-
-Run tests with:
-```bash
-npm run test
-```
+- Keep UI state and validation centralized in [src/App.tsx](src/App.tsx)
+- Add new components under [src/components/](src/components/)
+- Keep data types under [src/types/](src/types/) and helpers under [src/utils/](src/utils/)
 
 ## License
 

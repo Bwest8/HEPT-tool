@@ -159,7 +159,7 @@ function App() {
       <Header />
 
       {/* Main content container */}
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="max-w-5xl mx-auto bg-white rounded-lg shadow-xl p-8 mb-8">
           <form onSubmit={handleSubmit} className="space-y-6">
             <ImportantReminders />
@@ -171,7 +171,7 @@ function App() {
             />
 
             {/* === Form Sections === */}
-            <FormSection title="District Information">
+    <FormSection id="district-info" title="District Information">
               <DistrictInformation
                 formData={formData}
                 errors={errors}
@@ -182,7 +182,7 @@ function App() {
               />
             </FormSection>
 
-            <FormSection title="Private Tutoring">
+    <FormSection id="private-tutoring" title="Private Tutoring">
               <PrivateTutoring
                 formData={formData}
                 errors={errors}
@@ -191,7 +191,7 @@ function App() {
               />
             </FormSection>
 
-            <FormSection title="Homeschooling">
+    <FormSection id="homeschooling" title="Homeschooling">
               <HomeschoolingSection
                 formData={formData}
                 errors={errors}
@@ -200,7 +200,7 @@ function App() {
               />
             </FormSection>
 
-            <FormSection title="Cyber Program">
+    <FormSection id="cyber-program" title="Cyber Program">
               <CyberProgramSection
                 formData={formData}
                 errors={errors}
@@ -208,7 +208,7 @@ function App() {
               />
             </FormSection>
 
-            <FormSection title="Additional Comments">
+    <FormSection id="additional-comments" title="Additional Comments">
               <AdditionalComments
                 formData={formData}
                 errors={errors}

@@ -10,15 +10,17 @@ interface FormSectionProps {
   children: React.ReactNode;
   /** Additional CSS classes to apply to the container */
   className?: string;
+  /** Optional id to enable anchor navigation */
+  id?: string;
 }
 
 /**
  * Form section container with styled header and content area
  * Provides consistent styling for form sections throughout the application
  */
-export const FormSection: React.FC<FormSectionProps> = ({ title, children, className = '' }) => {
+export const FormSection: React.FC<FormSectionProps> = ({ title, children, className = '', id }) => {
   return (
-    <section className={`bg-white border-2 border-gray-300 mb-8 ${className}`}>
+  <section id={id} className={`bg-white border-2 border-gray-300 mb-8 scroll-mt-24 ${className}`}>
       {/* Section Header */}
       <div className="bg-blue-600 px-6 py-4 border-b-2 border-blue-700">
         <h2 className="text-xl font-bold text-white leading-tight">{title}</h2>
